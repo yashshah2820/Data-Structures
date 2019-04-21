@@ -31,8 +31,7 @@ public class BST {
         } else {
             if (a > rt.val) {
                 rt = rt.rc;
-            }
-            if (a < rt.val) {
+            } else {
                 rt = rt.lc;
             }
             return SearchElement(a, rt);
@@ -58,7 +57,6 @@ public class BST {
 
     void PostOrderTraverse(Tree rt) {
         if (rt != null) {
-
             PostOrderTraverse(rt.lc);
             PostOrderTraverse(rt.rc);
             System.out.print(rt.val + ", ");
@@ -94,20 +92,32 @@ public class BST {
                 parent.lc = null;
             }
         } else {
-            if (ele.lc == null & ele.rc != null) {
-                Tree parent = findparent(root, a);
-                if (parent.rc == ele) {
-                    parent.rc = ele.rc;
+            if (ele.lc == null && ele.rc != null) {
+                if (ele.val == root.val) {
+                    Integer temp = root.rc.val;
+                    DeleteElement(root.rc.val);
+                    root.val = temp;
                 } else {
-                    parent.lc = ele.rc;
+                    Tree parent = findparent(root, a);
+                    if (parent.rc == ele) {
+                        parent.rc = ele.rc;
+                    } else {
+                        parent.lc = ele.rc;
+                    }
                 }
             } else {
                 if (ele.rc == null && ele.lc != null) {
-                    Tree parent = findparent(root, a);
-                    if (parent.rc == ele) {
-                        parent.rc = ele.lc;
+                    if (ele.val == root.val) {
+                        Integer temp = root.lc.val;
+                        DeleteElement(root.lc.val);
+                        root.val = temp;
                     } else {
-                        parent.lc = ele.lc;
+                        Tree parent = findparent(root, a);
+                        if (parent.rc == ele) {
+                            parent.rc = ele.lc;
+                        } else {
+                            parent.lc = ele.lc;
+                        }
                     }
                 } else {
                     Tree temp = ele.lc;
@@ -121,4 +131,5 @@ public class BST {
             }
         }
     }
+}
 }
