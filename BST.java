@@ -6,36 +6,34 @@ public class BST {
     }
 
     void InsertElement(int key) {
-        InsertElement(key, root);
+        root = InsertElement(key, root);
     }
 
-    void InsertElement(Integer key, Tree rt) {
+    Tree InsertElement(Integer key, Tree rt) {
 
         if (rt.val > key) {
             if (rt.lc == null)
                 rt.lc = new Tree(key);
             else
-                InsertElement(key, rt.lc);
+                rt.lc = InsertElement(key, rt.lc);
         }
         if (rt.val < key) {
             if (rt.rc == null)
                 rt.rc = new Tree(key);
             else
-                InsertElement(key, rt.rc);
+                rt.rc = InsertElement(key, rt.rc);
+
         }
+        return rt;
     }
 
     Tree SearchElement(Integer a, Tree rt) {
-        if (rt == null || rt.val == a) {
+        if (rt.val == a)
             return rt;
-        } else {
-            if (a > rt.val) {
-                rt = rt.rc;
-            } else {
-                rt = rt.lc;
-            }
-            return SearchElement(a, rt);
-        }
+        else if (a > rt.val)
+            return SearchElement(a, rt.rc);
+        else
+            return SearchElement(a, rt.lc);
     }
 
     void PreOrderTraverse(Tree rt) {
@@ -131,5 +129,4 @@ public class BST {
             }
         }
     }
-}
 }
