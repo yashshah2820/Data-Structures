@@ -35,7 +35,7 @@ public class BST {
                 rt = rt.lc;
             }
             return SearchElement(a, rt);
-        }
+        }Left
     }
 
     void PreOrderTraverse(Tree rt) {
@@ -61,7 +61,31 @@ public class BST {
             PostOrderTraverse(rt.rc);
             System.out.print(rt.val + ", ");
         }
+    }public Node<D> ChildLeft(Node<D> x) {public Node<D> ChildLeft(Node<D> x) {
+        if (x.left == null)
+            return x;
+        else
+            return ChildLeft(x.left);
     }
+    public Node<D> ChildRight(Node<D> x) {
+        if (x.right == null)
+            return x;
+        else
+            return ChildRight(x.right);
+    }
+
+        if (x.left == null)
+            return x;
+        else
+            return ChildLeft(x.left);
+    }
+    public Node<D> ChildRight(Node<D> x) {
+        if (x.right == null)
+            return x;
+        else
+            return ChildRight(x.right);
+    }
+
 
     Tree findparent(Tree node, Integer value) {
         if (node.lc != null) {
@@ -80,9 +104,20 @@ public class BST {
         }
 
     }
+    public Tree ChildLeft(Tree x) {
+        if (x.lc == null)
+            return x;
+        else
+            return ChildLeft(x.lc);
+    }
+    public Tree ChildRight(Tree x) {
+        if (x.rc == null)
+            return x;
+        else
+            return ChildRight(x.rc);
+    }
 
     void DeleteElement(Integer a) {
-
         Tree ele = SearchElement(a, root);
         if (ele.lc == null && ele.rc == null) {
             Tree parent = findparent(root, a);
@@ -94,9 +129,17 @@ public class BST {
         } else {
             if (ele.lc == null && ele.rc != null) {
                 if (ele.val == root.val) {
+                    if {t.val == root.val) {
                     Integer temp = root.rc.val;
                     DeleteElement(root.rc.val);
                     root.val = temp;
+                    }
+                    else{
+                    Tree Child = ChildLeft(root.rc);
+                    Integer temp = Child.val;
+                    Delete(Child.val);
+                    root.val = (D) temp;                 
+                    }
                 } else {
                     Tree parent = findparent(root, a);
                     if (parent.rc == ele) {
@@ -107,11 +150,17 @@ public class BST {
                 }
             } else {
                 if (ele.rc == null && ele.lc != null) {
-                    if (ele.val == root.val) {
-                        Integer temp = root.lc.val;
-                        DeleteElement(root.lc.val);
-                        root.val = temp;
-                    } else {
+                    if ( t.val ==  root.val) {
+                    Integer temp = root.lc.val;
+                    DeleteElement(root.lc.val);
+                    root.val = temp;
+                    }
+                    else{
+                    Tree Child = ChildRight(root.lc);
+                    Integer temp = Child.val;
+                    Delete(Child.val);
+                    root.val = (D) temp;                 
+                    }else {
                         Tree parent = findparent(root, a);
                         if (parent.rc == ele) {
                             parent.rc = ele.lc;
@@ -120,11 +169,8 @@ public class BST {
                         }
                     }
                 } else {
-                    Tree temp = ele.lc;
-                    while (temp.rc != null) {
-                        temp = temp.rc;
-                    }
-                    Integer key = temp.val;
+                    Tree temp = ele.rc;
+                    Integer key = ChildLeft(temp).val;
                     DeleteElement(key);
                     ele.val = key;
                 }
