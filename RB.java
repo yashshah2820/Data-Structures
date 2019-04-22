@@ -8,56 +8,96 @@ public class RB {
 
     void insert(int val) {
         root = Insertelement(root, val);
+        root.colour = false;
+        // Fixup(root, val);
     }
 
     RBnode Insertelement(RBnode rt, int a) {
         if (rt == null) {
             rt = new RBnode(a);
-
         } else if (rt.value < a) {
             rt.rc = Insertelement(rt.rc, a);
-            Fixup(rt);
+            if (rt.rc.lc != null) { // case of right left
+                if (rt.rc.lc.colour == true && rt.rc.colour == true) {
+                    if (rt.lc != null && rt.lc.colour == true) {
+                        rt.colour = true;
+                        rt.lc.colour = false;
+                        rt.rc.colour = false;
+                    } else {
+                        rt = rightleftrotation(rt);
+                    }
+                }
+            } else if (rt.rc.rc != null) {
+                if (rt.rc.rc.colour == true && rt.rc.colour == true) {
+                    if (rt.lc != null && rt.lc.colour == true) {
+                        rt.colour = true;
+                        rt.lc.colour = false;
+                        rt.rc.colour = false;
+                    } else {
+                        rt = leftleftrotation(rt);
+                    }
+                }
+            }
 
         } else if (rt.value > a) {
             rt.lc = Insertelement(rt.lc, a);
-            Fixup(rt);
-        }
-        return rt;
-    }
-
-    void Fixup(RBnode rt) {
-        if (rt == root) {
-            rt.colour = false;
-        } else {
-            RBnode parent = findparent(root, rt.value);
-
-            if (siblingof(rt) != null) {
-                if (parent.colour == true) {
-                    RBnode uncle = uncleof(rt);
-                    if (uncle.colour == true) {
-                        uncle.colour = false;
-                        parent.colour = false;
+            if (rt.lc.lc != null) { // case of right left
+                if (rt.lc.lc.colour == true && rt.lc.colour == true) {
+                    if (rt.rc != null && rt.rc.colour == true) {
+                        rt.colour = true;
+                        rt.rc.colour = false;
+                        rt.lc.colour = false;
                     } else {
-                        if (gparent.value > parent.value) {
-                            if (parent.value < rt.value) {
-                                rt = leftleftrotation(gparent);
-                            } else {
-                                rt = rightleftrotation(gparent);
-                            }
-                        } else {
-                            if (parent.value > rt.value) {
-                                rt = rightrightrotation(gparent);
-                            } else {
-                                rt = leftrightrotation(gparent);
-                            }
-                        }
-
+                        rt = rightrightrotation(rt);
+                    }
+                }
+            } else if (rt.lc.rc != null) {
+                if (rt.lc.rc.colour == true && rt.lc.colour == true) {
+                    if (rt.rc != null && rt.rc.colour == true) {
+                        rt.colour = true;
+                        rt.lc.colour = false;
+                        rt.rc.colour = false;
+                    } else {
+                        rt = leftrightrotation(rt);
                     }
                 }
             }
         }
-
+        return rt;
     }
+
+    // void Fixup(RBnode rt, int val) {
+    // if (root.value == val) {
+    // rt.colour = false;
+    // } else {
+    // RBnode parent = findparent(root, val);
+    // if (siblingof(rt) != null) {
+    // if (parent.colour == true) {
+    // RBnode sibling = siblingof(rt);
+    // if (sibling.colour == true) {
+    // parent.colour = true;
+    // sibling.colour = false;
+    // rt.colour = false;
+    // } else {
+    // if (parent.value > rt.value) {
+    // if (rt.rc != null) {
+    // parent = leftleftrotation(parent);
+    // } else {
+    // parent = rightleftrotation(parent);
+    // }
+    // } else {
+    // if (parent.value > rt.value) {
+    // parent = rightrightrotation(parent);
+    // } else {
+    // parent = leftrightrotation(parent);
+    // }
+    // }
+    // }
+    // }
+    // }
+    // }
+
+    // }
 
     RBnode findparent(RBnode node, Integer a) {
         if (node.lc != null) {
@@ -126,6 +166,14 @@ public class RB {
         if (rt != null) {
             InOrderTraverse(rt.lc);
             System.out.print(rt.value + ", ");
+            InOrderTraverse(rt.rc);
+        }
+    }
+
+    void InOrderTraverseColour(RBnode rt) {
+        if (rt != null) {
+            InOrderTraverse(rt.lc);
+            System.out.print(rt.colour + ", ");
             InOrderTraverse(rt.rc);
         }
 
