@@ -102,9 +102,9 @@ public class RB {
     public void InOrderTraverse(RBnode r) {
         if (r == null)
             return;
-        InOrderTraverse(r.left);
-        System.out.print(r.val + "\t");
-        InOrderTraverse(r.right);
+        InOrderTraverse(r.lc);
+        System.out.print(r.value + "\t");
+        InOrderTraverse(r.rc);
     }
 
     public void InOrderTraverseColour(RBnode r) {
@@ -120,7 +120,7 @@ public class RB {
     public void PreTraverse(RBnode r) {
         if (r == null)
             return;
-        System.out.print(r.val + "\t");
+        System.out.print(r.value + "\t");
         preTraverse(r.lc);
         preTraverse(r.rc);
     }
